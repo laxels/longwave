@@ -1,15 +1,15 @@
 {
   "projects": {
-    "default": "wavelength-online"
+    "default": "wavelength-bbe24"
   },
   "targets": {
-    "wavelength-online": {
+    "wavelength-bbe24": {
       "hosting": {
-        "longwave": [
-          "longwave"
+        "wavelength": [
+          "wavelength"
         ],
         "dev": [
-          "wavelength-online"
+          "wavelength-bbe24"
         ]
       }
     }
