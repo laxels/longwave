@@ -3,7 +3,7 @@ import { RoundPhase, GameType, Team } from "../../state/GameState";
 import { GiveClue } from "./GiveClue";
 import { MakeGuess } from "./MakeGuess";
 import { ViewScore } from "./ViewScore";
-import { JoinTeam } from "./JoinTeam";
+import { JoinTeamAndSubmitCustomSpectrumCards } from "./JoinTeamAndSubmitCustomSpectrumCards";
 import { Scoreboard } from "./Scoreboard";
 import { SetupGame } from "./SetupGame";
 import { CounterGuess } from "./CounterGuess";
@@ -23,7 +23,7 @@ export function ActiveGame() {
     (gameState.roundPhase === RoundPhase.PickTeams ||
       localPlayer.team === Team.Unset)
   ) {
-    return <JoinTeam />;
+    return <JoinTeamAndSubmitCustomSpectrumCards />;
   }
 
   return (

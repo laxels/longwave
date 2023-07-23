@@ -1,6 +1,6 @@
 import { render, fireEvent, within, waitFor } from "@testing-library/react";
 import { InitialGameState, GameState, Team } from "../../state/GameState";
-import { JoinTeam } from "./JoinTeam";
+import { JoinTeamAndSubmitCustomSpectrumCards } from "./JoinTeamAndSubmitCustomSpectrumCards";
 import { TestContext } from "./TestContext";
 
 jest.useFakeTimers();
@@ -19,7 +19,7 @@ test("Assigns player to the selected team", async () => {
   const setState = jest.fn();
   const component = await render(
     <TestContext gameState={gameState} playerId="player1" setState={setState}>
-      <JoinTeam />
+      <JoinTeamAndSubmitCustomSpectrumCards />
     </TestContext>
   );
 
@@ -78,7 +78,7 @@ test("Shows current team members", () => {
 
   const component = render(
     <TestContext gameState={gameState} playerId="player1">
-      <JoinTeam />
+      <JoinTeamAndSubmitCustomSpectrumCards />
     </TestContext>
   );
 

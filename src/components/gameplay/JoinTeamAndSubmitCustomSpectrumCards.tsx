@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { CenteredRow, CenteredColumn } from "../common/LayoutElements";
 import { RoundPhase, Team, TeamName } from "../../state/GameState";
 import { Button } from "../common/Button";
@@ -8,8 +8,9 @@ import { GameModelContext } from "../../state/GameModelContext";
 import { NewTeamGame } from "../../state/NewGame";
 
 import { useTranslation } from "react-i18next";
+import { SpectrumCard } from "../../state/BuildGameModel";
 
-export function JoinTeam() {
+export function JoinTeamAndSubmitCustomSpectrumCards() {
   const { t } = useTranslation();
   const cardsTranslation = useTranslation("spectrum-cards");
   const { gameState, localPlayer, setGameState } = useContext(GameModelContext);
@@ -33,19 +34,31 @@ export function JoinTeam() {
     });
   };
 
-  const startGame = () =>
+  const [customSpectrumCardsStr, setcustomSpectrumCardsStr] = useState(``);
+
+  const startGame = () => {
+    const customSpectrumCards = parsecustomSpectrumCardsStrSafe(
+      customSpectrumCardsStr
+    );
+    if (customSpectrumCards == null) {
+      return;
+    }
+
     setGameState(
       NewTeamGame(
         gameState.players,
         localPlayer.id,
         gameState,
-        cardsTranslation.t
+        cardsTranslation.t,
+        customSpectrumCards
       )
     );
+  };
 
   return (
     <CenteredColumn>
       <LongwaveAppTitle />
+
       <div>{t("jointeam.join_team")}:</div>
       <CenteredRow
         style={{
@@ -78,9 +91,54 @@ export function JoinTeam() {
           </div>
         </CenteredColumn>
       </CenteredRow>
+
+      <div style={{ marginTop: 16 }}>Custom Spectrum Cards:</div>
+      <CenteredRow
+        style={{
+          alignItems: "flex-start",
+          alignSelf: "stretch",
+        }}
+      >
+        <textarea
+          style={{
+            width: 300,
+            height: 120,
+            resize: `none`,
+          }}
+          placeholder={`trashy, classy\ndead, alive`}
+          value={customSpectrumCardsStr}
+          onChange={(e) => {
+            setcustomSpectrumCardsStr(e.target.value);
+          }}
+        />
+      </CenteredRow>
+
       {gameState.roundPhase === RoundPhase.PickTeams && (
         <Button text={t("jointeam.start_game")} onClick={startGame} />
       )}
     </CenteredColumn>
   );
+}
+
+function parsecustomSpectrumCardsStrSafe(str: string): SpectrumCard[] | null {
+  try {
+    return parsecustomSpectrumCardsStr(str);
+  } catch {
+    alert(`Badly formatted custom spectrum cards`);
+    return null;
+  }
+}
+
+function parsecustomSpectrumCardsStr(str: string): SpectrumCard[] {
+  return str
+    .trim()
+    .split(`\n`)
+    .map((l) => l.trim())
+    .filter((l) => l)
+    .map((l) => l.split(/\s*,\s*/))
+    .filter(isSpectrumCard);
+}
+
+function isSpectrumCard(x: string[]): x is SpectrumCard {
+  return x.length === 2;
 }

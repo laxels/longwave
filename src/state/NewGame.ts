@@ -1,12 +1,14 @@
 import { TFunction } from "react-i18next";
 import { GameType, PlayersTeams, GameState, Team } from "./GameState";
 import { NewRound } from "./NewRound";
+import { SpectrumCard } from "./BuildGameModel";
 
 export function NewTeamGame(
   players: PlayersTeams,
   startPlayer: string,
   gameState: GameState,
-  tSpectrumCards: TFunction<"spectrum-cards">
+  tSpectrumCards: TFunction<"spectrum-cards">,
+  customSpectrumCards: SpectrumCard[]
 ): Partial<GameState> {
   const initialScores: Partial<GameState> = {
     leftScore: 0,
@@ -25,5 +27,6 @@ export function NewTeamGame(
     ...initialScores,
     previousTurn: null,
     gameType: GameType.Teams,
+    customSpectrumCards,
   };
 }

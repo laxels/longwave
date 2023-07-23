@@ -19,7 +19,7 @@ export function NewRound(
   const newState: Partial<GameState> = {
     clueGiver: playerId,
     roundPhase: RoundPhase.GiveClue,
-    deckIndex: gameState.deckIndex + 1,
+    deckIndex: gameState.deckIndex == null ? 0 : gameState.deckIndex + 1,
     turnsTaken: gameState.turnsTaken + 1,
     spectrumTarget: RandomSpectrumTarget(),
   };

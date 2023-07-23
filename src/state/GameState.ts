@@ -1,6 +1,7 @@
 import { RandomSpectrumTarget } from "./RandomSpectrumTarget";
 import { RandomFourCharacterString } from "./RandomFourCharacterString";
 import { TFunction } from "react-i18next";
+import { SpectrumCard } from "./BuildGameModel";
 
 export enum RoundPhase {
   SetupGame,
@@ -63,7 +64,7 @@ export interface GameState {
   roundPhase: RoundPhase;
   turnsTaken: number;
   deckSeed: string;
-  deckIndex: number;
+  deckIndex: number | null;
   spectrumTarget: number;
   clue: string;
   guess: number;
@@ -76,15 +77,18 @@ export interface GameState {
   coopBonusTurns: number;
   previousTurn: TurnSummaryModel | null;
   deckLanguage: string | null;
+  customSpectrumCards: SpectrumCard[];
 }
 
-export function InitialGameState(deckLanguage: string): GameState {
+export function InitialGameState(
+  deckLanguage: string | null = null
+): GameState {
   return {
     gameType: GameType.Teams,
     roundPhase: RoundPhase.SetupGame,
     turnsTaken: -1,
     deckSeed: RandomFourCharacterString(),
-    deckIndex: 0,
+    deckIndex: null,
     spectrumTarget: RandomSpectrumTarget(),
     clue: "",
     guess: 0,
@@ -96,6 +100,7 @@ export function InitialGameState(deckLanguage: string): GameState {
     coopScore: 0,
     coopBonusTurns: 0,
     previousTurn: null,
-    deckLanguage: deckLanguage,
+    deckLanguage,
+    customSpectrumCards: [],
   };
 }

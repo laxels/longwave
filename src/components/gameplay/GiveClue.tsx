@@ -12,13 +12,8 @@ import { useTranslation } from "react-i18next";
 
 export function GiveClue() {
   const { t } = useTranslation();
-  const {
-    gameState,
-    localPlayer,
-    clueGiver,
-    spectrumCard,
-    setGameState,
-  } = useContext(GameModelContext);
+  const { gameState, localPlayer, clueGiver, spectrumCard, setGameState } =
+    useContext(GameModelContext);
   const inputElement = useRef<HTMLInputElement>(null);
   const [disableSubmit, setDisableSubmit] = useState(
     !inputElement.current?.value?.length
@@ -60,7 +55,7 @@ export function GiveClue() {
 
   const redrawCard = () =>
     setGameState({
-      deckIndex: gameState.deckIndex + 1,
+      deckIndex: (gameState.deckIndex ?? 0) + 1,
       spectrumTarget: RandomSpectrumTarget(),
     });
 

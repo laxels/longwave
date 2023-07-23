@@ -21,6 +21,8 @@ export interface GameModel {
   setPlayerName: (newName: string) => void;
 }
 
+export type SpectrumCard = [string, string];
+
 const getSeededDeck = memoize((seed: string, cards: [string, string][]) =>
   shuffleSeed.shuffle(cards, seed)
 );
@@ -39,7 +41,6 @@ export function BuildGameModel(
       }
     : null;
 
-  type SpectrumCard = [string, string];
   const basicCards = tSpectrumCards("basic", {
     returnObjects: true,
   }) as SpectrumCard[];
@@ -47,7 +48,10 @@ export function BuildGameModel(
     returnObjects: true,
   }) as SpectrumCard[];
   const AllCards = [...basicCards, ...advancedCards];
-  const spectrumDeck = getSeededDeck(gameState.deckSeed, AllCards);
+  const spectrumDeck = [
+    ...gameState.customSpectrumCards,
+    ...getSeededDeck(gameState.deckSeed, AllCards),
+  ];
 
   return {
     gameState,
@@ -56,7 +60,8 @@ export function BuildGameModel(
       id: localPlayerId,
     },
     clueGiver,
-    spectrumCard: spectrumDeck[gameState.deckIndex % spectrumDeck.length],
+    spectrumCard:
+      spectrumDeck[(gameState.deckIndex ?? 0) % spectrumDeck.length],
     setGameState,
     setPlayerName,
   };
