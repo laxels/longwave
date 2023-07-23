@@ -60,5 +60,8 @@
   "devDependencies": {
     "@types/rc-slider": "^8.6.6",
     "@types/react-router-dom": "^5.1.7"
+  },
+  "volta": {
+    "node": "16.20.1"
   }
 }
