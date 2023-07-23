@@ -105,7 +105,7 @@ export function JoinTeamAndSubmitCustomSpectrumCards() {
             height: 120,
             resize: `none`,
           }}
-          placeholder={`trashy, classy\ndead, alive`}
+          placeholder={`Trashy, Classy\nDead, Alive`}
           value={customSpectrumCardsStr}
           onChange={(e) => {
             setcustomSpectrumCardsStr(e.target.value);
@@ -135,10 +135,14 @@ function parsecustomSpectrumCardsStr(str: string): SpectrumCard[] {
     .split(`\n`)
     .map((l) => l.trim())
     .filter((l) => l)
-    .map((l) => l.split(/\s*,\s*/))
+    .map((l) => l.split(/\s*,\s*/).map(capitalize))
     .filter(isSpectrumCard);
 }
 
 function isSpectrumCard(x: string[]): x is SpectrumCard {
   return x.length === 2;
+}
+
+function capitalize(str: string): string {
+  return str.charAt(0).toUpperCase() + str.slice(1);
 }
